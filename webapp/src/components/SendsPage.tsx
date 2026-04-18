@@ -25,6 +25,7 @@ function daysFromNow(iso: string | null | undefined, fallback: number): string {
   if (!iso) return String(fallback);
   const d = new Date(iso).getTime();
   if (!Number.isFinite(d)) return String(fallback);
+  if (d > 253370764800000) return '0';
   const diff = d - Date.now();
   const days = Math.ceil(diff / (24 * 60 * 60 * 1000));
   return String(Math.max(days, 0));
@@ -448,8 +449,8 @@ export default function SendsPage(props: SendsPageProps) {
                 </label>
               )}
               <label className="field">
-                <span>{t('txt_deletion_days')}</span>
-                <input className="input" type="number" min="1" max="31" value={draft.deletionDays} onInput={(e) => setDraft({ ...draft, deletionDays: (e.currentTarget as HTMLInputElement).value })} />
+                <span>{t('txt_deletion_days_0_never')}</span>
+                <input className="input" type="number" min="0" max="31" value={draft.deletionDays} onInput={(e) => setDraft({ ...draft, deletionDays: (e.currentTarget as HTMLInputElement).value })} />
               </label>
               <label className="field">
                 <span>{t('txt_expiration_days_0_never')}</span>

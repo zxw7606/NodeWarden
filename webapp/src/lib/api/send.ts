@@ -14,7 +14,7 @@ function toIsoDateFromDays(value: string, required: boolean): string | null {
     if (required) throw new Error('Invalid deletion days');
     throw new Error('Invalid expiration days');
   }
-  if (!required && n === 0) return null;
+  if (n === 0) return required ? '0' : null;
   const date = new Date(Date.now() + Math.floor(n) * 24 * 60 * 60 * 1000);
   return date.toISOString();
 }

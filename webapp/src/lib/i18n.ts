@@ -1,4 +1,4 @@
-﻿type Locale = 'en' | 'zh-CN';
+type Locale = 'en' | 'zh-CN';
 
 const LOCALE_STORAGE_KEY = 'nodewarden.locale';
 
@@ -384,6 +384,7 @@ const messages: Record<Locale, Record<string, string>> = {
     txt_deleted_selected_sends: "Deleted selected sends",
     txt_deletion_date: "Deletion Date",
     txt_deletion_days: "Deletion Days",
+    txt_deletion_days_0_never: "Deletion Days (0 = never)",
     txt_device: "Device",
     txt_device_authorization_revoked: "Device trust revoked",
     txt_device_management: "Device Management",
@@ -1159,6 +1160,7 @@ const zhCNOverrides: Record<string, string> = {
   txt_deletion_date: '删除日期',
   txt_expiration_date: '过期日期',
   txt_deletion_days: '删除天数',
+  txt_deletion_days_0_never: '删除天数（0 表示不删除）',
   txt_expiration_days_0_never: '过期天数（0 表示不过期）',
   txt_max_access_count: '最大访问次数',
   txt_options: '选项',

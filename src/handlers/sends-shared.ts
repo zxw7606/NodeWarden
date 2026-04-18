@@ -8,6 +8,7 @@ import { LIMITS } from '../config/limits';
 export const SEND_INACCESSIBLE_MSG = 'Send does not exist or is no longer available';
 const SEND_PASSWORD_ITERATIONS = 100_000;
 export const SEND_PASSWORD_LIMIT_SCOPE = 'send-password';
+export const NEVER_DATE = '9999-12-31T23:59:59.999Z';
 
 export async function notifyVaultSyncForRequest(
   request: Request,
@@ -257,6 +258,9 @@ export function verifySendPasswordHashB64(send: Send, passwordHashB64: string): 
 }
 
 export function validateDeletionDate(date: Date): Response | null {
+  if (date.toISOString() === NEVER_DATE) {
+    return null;
+  }
   const maxMs = Date.now() + LIMITS.send.maxDeletionDays * 24 * 60 * 60 * 1000;
   if (date.getTime() > maxMs) {
     return errorResponse(

@@ -28,6 +28,7 @@ import {
   sendToResponse,
   setSendPassword,
   validateDeletionDate,
+  NEVER_DATE,
 } from './sends-shared';
 
 async function processSendFileUpload(
@@ -148,7 +149,10 @@ export async function handleCreateSend(request: Request, env: Env, userId: strin
     return errorResponse('Key is required', 400);
   }
 
-  const deletionDate = parseDate(deletionDateRaw.value);
+  let deletionDate = parseDate(deletionDateRaw.value);
+  if (deletionDateRaw.value === 0 || deletionDateRaw.value === '0') {
+    deletionDate = new Date(NEVER_DATE);
+  }
   if (!deletionDate) {
     return errorResponse('Invalid deletionDate', 400);
   }
@@ -267,7 +271,10 @@ export async function handleCreateFileSendV2(request: Request, env: Env, userId:
     return errorResponse('Key is required', 400);
   }
 
-  const deletionDate = parseDate(deletionDateRaw.value);
+  let deletionDate = parseDate(deletionDateRaw.value);
+  if (deletionDateRaw.value === 0 || deletionDateRaw.value === '0') {
+    deletionDate = new Date(NEVER_DATE);
+  }
   if (!deletionDate) {
     return errorResponse('Invalid deletionDate', 400);
   }
@@ -482,7 +489,10 @@ export async function handleUpdateSend(request: Request, env: Env, userId: strin
 
   const deletionRaw = getAliasedProp(body, ['deletionDate', 'DeletionDate']);
   if (deletionRaw.present) {
-    const deletionDate = parseDate(deletionRaw.value);
+    let deletionDate = parseDate(deletionRaw.value);
+    if (deletionRaw.value === 0 || deletionRaw.value === '0') {
+      deletionDate = new Date(NEVER_DATE);
+    }
     if (!deletionDate) return errorResponse('Invalid deletionDate', 400);
     const deletionValidation = validateDeletionDate(deletionDate);
     if (deletionValidation) return deletionValidation;
